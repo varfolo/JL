@@ -34,7 +34,7 @@ public class JSONPars {
        
             //3 Работа с JSON
             String url1 = "http://spgt.uraltexis.ru/api/v1/appointments/";
-            String genreJson = IOUtils.toString(new URL(url));
+            String genreJson = IOUtils.toString(new URL(url1));
             JSONParser jP = new JSONParser();
             JSONArray jA = (JSONArray) jP.parse(genreJson);
 
