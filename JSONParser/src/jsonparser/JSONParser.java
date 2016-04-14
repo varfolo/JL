@@ -31,82 +31,34 @@ public class JSONParser {
            String PWRD = "qwe";
            Connection conn = DriverManager.getConnection(url, UID, PWRD);
            conn.createStatement().executeUpdate("TRUNCATE TABLE Appointments");
-           // conn.createStatement().executeUpdate("INSERT Appointments (ID, Engineer, Name)VALUES (1,'false','Лященко');");
-           //conn.createStatement().executeQuery("INSERT Appointments (ID, Engineer, Name)VALUES (1,'false','Лященко');");
-           // ResultSet result = statement           
-           //   while (result.next()){
-           //             System.out.println(result.getRow()+" "+result.getInt("AppID")+" "+result.getString("name")+" "+result.getString("Engineer"));
-                  
-           
-//2-ой с//пособ, способ запросов хранимых процедур
-/*
-           Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");  
-           String url2 = "jdbc:sqlserver://localhost:1433;databaseName=ShopD;integratedSecurity=false;";
-          //Class.forName("net.sourceforge.jtds.jdbc.Driver");
-          //String url2 = "jdbc:jtds:sqlserver://localhost:1433/ShopD";
-           String UID = "sa";
-           String PWRD = "qwe";
-            Connection conn2 = DriverManager.getConnection(url2, UID, PWRD);
-           CallableStatement cstmt = conn2.prepareCall("{call spEmployees}");
-           ResultSet result = cstmt.executeQuery();
+       
+            //3 Работа с JSON
+            String url1 = "http://spgt.uraltexis.ru/api/v1/appointments/";
+            String genreJson = IOUtils.toString(new URL(url));
+            JSONParser jp = new JSONParser();
+            JSONArray jA = (JSONArray) jP.parse(genreJson);
 
-            while (result.next()){
-                System.out.println(result.getRow()+" "+result.getInt("EmployeeID")+" "+result.getString("FName")+" "+result.getString("LName"));
-           }
-           conn2.close();
-           // storedProcedure str = new storedProcedure("{call spEmployees}",conn2);
-           // str.stor();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-     */
-         
-         
-    /*            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");  
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=ParseJ;integratedSecurity=false;";
-        String UID = "sa";
-        String PWRD = "qwe";
-        Connection conn;
-        try {
-            conn = DriverManager.getConnection(url, UID, PWRD);
-            Statement statement = conn.createStatement();
-            ResultSet result = statement.executeQuery("Select*from Appointments");
-           
-        } catch (SQLException ex) {
-            Logger.getLogger(createDB.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-*/
-     // createDB create = new createDB();
-     // create.crtDB();
-        
-//3 Работа с JSON
-String url2 = "http://spgt.uraltexis.ru/api/v1/appointments/";
-String genreJson = IOUtils.toString(new URL(url2));
-JSONParser jP = new JSONParser();
-JSONArray jA = (JSONArray) jP.parse(genreJson);
-
-for (int i = 0; i < jA.size(); i++ ){
-    JSONObject genreJsonObject = (JSONObject) jA.get(i);
-    String id = genreJsonObject.get("id").toString();
-    String name = genreJsonObject.get("name").toString();
-    String eng = genreJsonObject.get("engeneer").toString();
+            for (int i = 0; i < jA.size(); i++ ){
+                JSONObject genreJsonObject = (JSONObject) jA.get(i);
+                String id = genreJsonObject.get("id").toString();
+                String name = genreJsonObject.get("name").toString();
+                String eng = genreJsonObject.get("engeneer").toString();
     
-    String sql = "INSERT Appointments ([ID], [Engineer], [Name]) VALUES (?,?,?)";
+                String sql = "INSERT Appointments ([ID], [Engineer], [Name]) VALUES (?,?,?)";
    
-    PreparedStatement sqlstatement = conn.prepareStatement(sql);
-    sqlstatement.setString(1, id);
-    sqlstatement.setString(2, eng);
-    sqlstatement.setString(3, name);
-    sqlstatement.executeUpdate();
-}
-conn.close();
+                PreparedStatement sqlstatement = conn.prepareStatement(sql);
+                sqlstatement.setString(1, id);
+                sqlstatement.setString(2, eng);
+                sqlstatement.setString(3, name);
+                sqlstatement.executeUpdate();
+            }       
+            conn.close();
 
-    }
+            }
              
-    catch (Exception e){
-        e.printStackTrace();
+             catch (Exception e){
+                e.printStackTrace();
+             }   
     }   
-}
     
 }
