@@ -31,7 +31,7 @@ public class Iter {
 //        }
         ListIterator<String> lstIt = arList.listIterator();
         while (lstIt.hasNext()){
-                        System.out.println(lstIt.nextIndex());
+            System.out.println(lstIt.nextIndex());
             if ("Франция".equals(lstIt.next())){
                 lstIt.add("Колумбия");
             }
