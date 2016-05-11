@@ -17,10 +17,11 @@ public class HsMp {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        //Коллекция HasMap
         Map<Integer, String> colHasMap = new HashMap();
         colHasMap.put(1, "Германия");
-        colHasMap.put(2, "Россия");
-        colHasMap.put(3, "Франция");
+        colHasMap.put(43, "Россия");
+        colHasMap.put(5, "Франция");
         colHasMap.put(4, "Италия");
         
         // Получение первого элемента
@@ -38,6 +39,18 @@ public class HsMp {
         System.out.println(colHasMap.get(3));
         
         for (Map.Entry<Integer, String> item: colHasMap.entrySet()){
+            System.out.println(item.getValue());
+        }
+        
+        System.out.println("-------------------------------------------------------");
+        //Коллекция TreeMap
+        TreeMap<Integer, String> tM = new TreeMap<Integer, String>();
+        tM.put(90, "А вот и 90");
+        tM.put(3, "А вот и 3");
+        tM.put(1, "А вот и 1");
+        tM.put(70, "А вот и 70");
+        
+        for (Map.Entry<Integer, String> item: tM.entrySet()){
             System.out.println(item.getValue());
         }
     }
